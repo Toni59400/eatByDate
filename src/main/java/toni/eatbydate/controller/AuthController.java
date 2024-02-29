@@ -53,20 +53,20 @@ public class AuthController {
                 User user = optionalUser.get();
                 String jwt = generateJwt(user);
                 Map<String, String> response = new HashMap<>();
-                response.put("jwt", jwt); // Ajoutez le jeton JWT dans la réponse
-                return ResponseEntity.ok(response);
+                response.put("jwt", jwt);
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
     }
 
 
     @CrossOrigin("*")
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDTO registerRequest) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterDTO registerRequest) {
         String username = registerRequest.getUsername();
         String password = registerRequest.getPassword();
         String email = registerRequest.getEmail();
@@ -74,11 +74,21 @@ public class AuthController {
 
         User user = authService.createUser(username, password, email);
         if (user != null) {
-            return ResponseEntity.ok("User created successfully");
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create user");
+            Optional<User> optionalUser = this.userService.getByEmail(email);
+            if (optionalUser.isPresent()) {
+                User user2 = optionalUser.get();
+                String jwt = generateJwt(user2);
+                Map<String, String> response = new HashMap<>();
+                response.put("jwt", jwt);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
     private String generateJwt(User username) {
 
         long expirationTime = 3600000; // 1 heure en millisecondes
@@ -89,10 +99,10 @@ public class AuthController {
                 .setSubject(username.getUsername())
                 .claim("email",username.getEmailAddress())
                 .claim("role", "ROLE_USER")
+                .claim("id", username.getUserId())
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
-
         return jwt;
     }
 }

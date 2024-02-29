@@ -1,6 +1,7 @@
 package toni.eatbydate.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import toni.eatbydate.dto.ProductDTO;
 import toni.eatbydate.service.ProductService;
 
+import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
 
+@CrossOrigin("*")
 @RestController
 public class ProductController {
 

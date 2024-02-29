@@ -1,5 +1,6 @@
 package toni.eatbydate.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +14,7 @@ public class User {
 
     private String username;
 
+    @JsonIgnore
     @Column(name = "password_hash")
     private String passwordHash;
 

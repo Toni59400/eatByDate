@@ -8,8 +8,7 @@ import lombok.Setter;
 @Setter
 public class ProductDTO {
     private String code;
-    private String genericName;
+    private String product_name;
     private String imageUrl;
-
 
 }
