@@ -33,6 +33,37 @@ public class ProductStockController {
         return new ResponseEntity<>(produits, HttpStatus.OK);
     }
 
+    @PostMapping("/save")
+    public ResponseEntity<Product> saveOrUpdateProduct(@RequestBody Product product) {
+        if (product.getId() != null) {
+            return updateProduct(product);
+        } else {
+            return createProduct(product);
+        }
+    }
+
+    private ResponseEntity<Product> createProduct(Product product) {
+        Product savedProduct = productService.saveProduct(product);
+        return new ResponseEntity<>(savedProduct, HttpStatus.OK);
+    }
+
+    private ResponseEntity<Product> updateProduct(Product product) {
+        Product existingProduct = productService.getProductById(product.getId());
+        if (existingProduct != null) {
+            if(product.getQuantite() == 0 ){
+                productService.delete(existingProduct);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }else {
+                existingProduct.setQuantite(product.getQuantite());
+
+                Product updatedProduct = productService.saveProduct(existingProduct);
+                return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }
 

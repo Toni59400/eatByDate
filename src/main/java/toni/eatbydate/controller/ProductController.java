@@ -1,5 +1,6 @@
 package toni.eatbydate.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +28,19 @@ public class ProductController {
     @CrossOrigin("*")
     @GetMapping("/product/{productCode}")
     public ResponseEntity<ProductDTO> getProductInfo(@PathVariable String productCode) {
-        return ResponseEntity.ok(productService.getProductInfo(productCode));
+        try {
+            ProductDTO productDTO = productService.getProductInfo(productCode);
+            return ResponseEntity.ok(productDTO);
+        } catch (Exception e) {
+            // Créer un ProductDTO avec des valeurs null
+            ProductDTO nullProductDTO = new ProductDTO();
+            nullProductDTO.setCode(productCode);
+            nullProductDTO.setProduct_name(null);
+            nullProductDTO.setImageUrl(null);
+
+            // Renvoyer le ProductDTO avec des valeurs null
+            return ResponseEntity.ok(nullProductDTO);
+        }
     }
 
 

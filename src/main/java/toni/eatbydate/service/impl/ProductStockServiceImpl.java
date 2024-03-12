@@ -15,6 +15,11 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Autowired
     private ProductRepo productRepository;
 
+
+    @Override
+    public Product getProductById(Long id){
+        return productRepository.getById(id);
+    }
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -29,4 +34,11 @@ public class ProductStockServiceImpl implements ProductStockService {
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
+
+    @Override
+    public void delete(Product p){
+        productRepository.delete(p);
+    }
+
+
 }

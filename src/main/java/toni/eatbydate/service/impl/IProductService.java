@@ -54,13 +54,13 @@ public class IProductService implements ProductService {
 
                 // Filter necessary information
                 String code = (String) map.get("code");
-                String genericName = (String) productInfo.get("generic_name");
+                String genericName = (String) productInfo.get("product_name");
                 String imageUrl = (String) productInfo.get("image_url");
 
                 // Create a DTO object
                 ProductDTO productDTO = new ProductDTO();
                 productDTO.setCode(code);
-                productDTO.setGenericName(genericName);
+                productDTO.setProduct_name(genericName);
                 productDTO.setImageUrl(imageUrl);
 
                 return productDTO;

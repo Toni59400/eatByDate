@@ -1,5 +1,6 @@
 package toni.eatbydate.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,9 +24,9 @@ public class Reserve {
     @JoinColumn(name = "reserve_type_id")
     private ReserveType reserveType;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 }
 

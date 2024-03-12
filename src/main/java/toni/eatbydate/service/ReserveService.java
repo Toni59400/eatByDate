@@ -8,5 +8,7 @@ public interface ReserveService {
     List<Reserve> getAllReserves();
     List<Reserve> getReservesByUserId(Long userId);
     Reserve saveReserve(Reserve reserve);
+
+    Reserve getReserve(Long reserveId);
 }
 
