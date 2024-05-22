@@ -1,5 +1,6 @@
 package toni.eatbydate.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import toni.eatbydate.entity.Product;
@@ -10,6 +11,7 @@ import toni.eatbydate.service.ProductStockService;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProductStockServiceImpl implements ProductStockService {
 
     @Autowired
